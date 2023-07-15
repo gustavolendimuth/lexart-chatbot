@@ -1,1 +1,0 @@
-{"version":3,"file":"userController.js","sourceRoot":"","sources":["../../src/controllers/userController.ts"],"names":[],"mappings":";;;AAEA,yDAA4D;AAErD,KAAK,UAAU,oBAAoB,CAAC,GAAY,EAAE,GAAa;IACpE,MAAM,IAAI,GAAG,MAAM,IAAA,+BAAiB,EAAC,GAAG,CAAC,IAAI,CAAC,CAAC;IAC/C,OAAO,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,CAAC;AACpC,CAAC;AAHD,oDAGC"}
