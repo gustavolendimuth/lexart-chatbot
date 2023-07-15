@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   createConversationController, getConversationController, getConversationsController,
-} from '../controllers/ConversationsController';
+} from '../controllers/conversationsController';
 
 const conversationsRouter = express.Router();
 

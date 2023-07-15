@@ -32,6 +32,7 @@ MessageModel.init({
     },
 }, {
     underscored: true,
+    timestamps: false,
     modelName: 'messages',
     sequelize: _1.default,
     freezeTableName: true,

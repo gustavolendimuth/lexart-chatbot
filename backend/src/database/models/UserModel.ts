@@ -32,6 +32,7 @@ UserModel.init(
     role: {
       type: STRING,
       allowNull: false,
+      defaultValue: 'user',
     },
   },
   {

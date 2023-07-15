@@ -4,9 +4,9 @@
 module.exports = {
   async up(queryInterface) {
     await queryInterface.bulkInsert('users', [{
-      name: 'Gustavo Lendimuth',
-      email: 'gustavolendimuth@gmail.com',
-      password: 'senha',
+      name: 'Admin',
+      email: 'join-us@lexartlabs.com',
+      password: '1d9e579683f89a3373c32b7b320e326208b125d82f770f08e3fe40a0d804c8a9',
       role: 'admin',
     }], {});
   },

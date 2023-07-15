@@ -8,10 +8,7 @@ const express_1 = __importDefault(require("express"));
 require("express-async-errors");
 const errorMiddleware_1 = require("./middlewares/errorMiddleware");
 const routes_1 = __importDefault(require("./routes/routes"));
-const corsOptions = {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3001',
-    optionsSuccessStatus: 200,
-};
+const corsOptions = { origin: process.env.FRONTEND_URL || 'http://localhost:3001' };
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());

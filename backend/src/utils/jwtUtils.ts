@@ -1,8 +1,8 @@
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
-import { UserLogin } from '../interfaces/User';
+import UserModel from '../database/models/UserModel';
 
-export const createJwtToken = ({ password, ...rest }: UserLogin): string => {
+export function createJwtToken({ password, ...rest }: UserModel) {
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) throw new Error('JWT_SECRET not found');
 
@@ -11,14 +11,14 @@ export const createJwtToken = ({ password, ...rest }: UserLogin): string => {
     algorithm: 'HS256',
   });
 
-  return token;
-};
+  return { token };
+}
 
-export const validateJwtToken = (token: string) => {
+export function validateJwtToken(token: string) {
   const jwtSecret = process.env.JWT_SECRET;
   if (!jwtSecret) throw new Error('JWT_SECRET not found');
 
   const response = jwt.verify(token, jwtSecret);
 
   return response;
-};
+}
