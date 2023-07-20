@@ -7,13 +7,14 @@ import { createJwtToken } from '../utils/jwtUtils';
 export async function loginService(
   { email, password }: { email: string, password: string },
 ): Promise<{ token: string }> {
+  const userError = new HttpException(401, 'Incorrect email or password');
+
   if (!email || !password) {
-    throw new HttpException(400, 'All fields must be filled');
+    throw new HttpException(401, 'All fields must be filled');
   }
 
   const user = await UserModel.findOne({ where: { email } });
 
-  const userError = new HttpException(401, 'Incorrect email or password');
   if (!user) {
     throw userError;
   }

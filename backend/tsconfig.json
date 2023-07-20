@@ -18,12 +18,12 @@
       ]
     },
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*"
+    "./src/**/*"
   ],
   "exclude": [
-    "src/tests"
+    "./src/tests"
   ]
 }

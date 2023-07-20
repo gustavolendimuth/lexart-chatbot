@@ -1,8 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import bcrypt from 'bcrypt';
 import UserModel from '../database/models/UserModel';
-import { CreateUserRequest } from '../interfaces/userInterfaces';
+import { CreateUserRequest } from '../types/userTypes';
 import HttpException from '../utils/HttpException';
+import { createJwtToken } from '../utils/jwtUtils';
 
 export async function createUserService(createUserRequest: CreateUserRequest) {
   const { email, password, ...rest } = createUserRequest;
@@ -22,6 +23,10 @@ export async function createUserService(createUserRequest: CreateUserRequest) {
 
   const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
-  const user = UserModel.create({ email, password: hashedPassword, ...rest });
-  return user;
+  const {
+    password: _, ...userWithoutPassword
+  } = (await UserModel.create({ email, password: hashedPassword, ...rest })).get();
+
+  const token = createJwtToken(userWithoutPassword);
+  return token;
 }

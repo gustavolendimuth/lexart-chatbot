@@ -1,31 +1,43 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express';
-import * as conversationService from '../services/conversationService';
+import { Response } from 'express';
+import {
+  createConversationService,
+  getConversationService,
+  getConversationsService,
+} from '../services/conversationService';
+import { RequestWithUser } from '../types/userTypes';
 import HttpException from '../utils/HttpException';
 
-export async function createConversationController(req: Request, res: Response): Promise<void> {
-  const { body } = req;
-  const { userId } = req.body.login.data.id;
+export async function createConversationController(req: RequestWithUser, res: Response): Promise<void> {
+  const { body: messages, user } = req;
 
-  const conversation = await conversationService.createConversation({ ...body, userId });
+  if (!user || !user.id) {
+    throw new HttpException(401, 'User not authenticated');
+  }
+
+  const conversation = await createConversationService({ ...messages, userId: user.id });
   res.status(201).json(conversation);
 }
 
-export async function getConversationsController(req: Request, res: Response): Promise<void> {
-  const { userId } = req.body.login.data.id;
+export async function getConversationsController(req: RequestWithUser, res: Response): Promise<void> {
+  const userId = req.user?.id;
 
   if (!userId) {
     throw new HttpException(401, 'User id is required');
   }
 
-  const conversations = await conversationService.getConversations(userId);
+  const conversations = await getConversationsService(userId);
   res.status(200).json(conversations);
 }
 
-export async function getConversationController(req: Request, res: Response): Promise<void> {
+export async function getConversationController(req: RequestWithUser, res: Response): Promise<void> {
   const { id } = req.params;
-  const { userId } = req.body.login.data.id;
+  const userId = req.user?.id;
 
-  const conversation = await conversationService.getConversation({ id, userId });
+  if (!userId || !id) {
+    throw new HttpException(401, 'User id and conversation id are required');
+  }
+
+  const conversation = await getConversationService({ id, userId });
   res.status(200).json(conversation);
 }

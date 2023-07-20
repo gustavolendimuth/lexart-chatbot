@@ -1,38 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ConversationModel from '../database/models/ConversationModel';
 import MessageModel from '../database/models/MessageModel';
-import { ConversationRequest } from '../interfaces/conversationInterfaces';
+import { ConversationRequest } from '../types/conversationTypes';
 
-export async function createConversation(body: ConversationRequest): Promise<void> {
-  try {
-    await ConversationModel.create({ ...body }, {
-      include: [{ model: MessageModel, as: 'messages' }],
-    });
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+export async function createConversationService(body: ConversationRequest): Promise<ConversationModel> {
+  const conversation = await ConversationModel.create({ ...body }, {
+    include: [{ model: MessageModel, as: 'messages' }],
+  });
+
+  return conversation;
 }
 
-export async function getConversations(userId: string): Promise<ConversationModel[]> {
-  try {
-    const response = await ConversationModel.findAll({
-      where: { userId },
-    });
-    return response;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+export async function getConversationsService(userId: number): Promise<ConversationModel[] | null> {
+  const conversations = await ConversationModel.findAll({
+    where: { userId },
+  });
+
+  return conversations;
 }
 
-export async function getConversation(
-  { id, userId }: { id: string, userId: string },
+export async function getConversationService(
+  { id, userId }: { id: string, userId: number },
 ): Promise<ConversationModel | null> {
-  try {
-    const response = await ConversationModel.findOne({
-      where: { id, userId },
-    });
-    return response;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+  const conversation = await ConversationModel.findOne({
+    where: { id, userId },
+  });
+
+  return conversation;
 }

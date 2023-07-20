@@ -1,0 +1,23 @@
+[
+  {
+    "term": "Loan",
+    "message":"Loan conditions",
+    "options": [
+      {
+        "message": "Do you want to apply for a loan?",
+        "link": "https://www.google.com",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliq"
+      },
+      {
+        "message": "Loan conditions",
+        "link": "https://www.google.com",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliq"
+      },
+      {
+        "message": "Help",
+        "link": "https://www.google.com",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliq"
+      }
+    ]
+  }
+]
