@@ -3,8 +3,9 @@ import db from '.';
 
 class MessageModel extends Model {
   declare id: number;
-  declare conversationId: number;
-  declare message: string;
+  declare chatId: number;
+  declare content: string;
+  declare sender: string;
 }
 
 MessageModel.init(
@@ -15,19 +16,19 @@ MessageModel.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    conversationId: {
+    chatId: {
       type: INTEGER,
       allowNull: false,
       references: {
-        model: 'conversations',
+        model: 'chat',
         key: 'id',
       },
     },
-    message: {
+    content: {
       type: STRING,
       allowNull: false,
     },
-    role: {
+    sender: {
       type: STRING,
       allowNull: false,
     },

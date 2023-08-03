@@ -3,13 +3,12 @@ import db from '.';
 import MessageModel from './MessageModel';
 import UserModel from './UserModel';
 
-class ConversationModel extends Model {
+class ChatModel extends Model {
   declare id: number;
   declare userId: number;
-  declare message: string;
 }
 
-ConversationModel.init(
+ChatModel.init(
   {
     id: {
       allowNull: false,
@@ -28,16 +27,16 @@ ConversationModel.init(
   },
   {
     underscored: true,
-    modelName: 'conversations',
+    modelName: 'chats',
     sequelize: db,
     timestamps: true,
     freezeTableName: true,
   },
 );
 
-UserModel.hasMany(ConversationModel, { foreignKey: 'userId', as: 'conversations' });
-ConversationModel.belongsTo(UserModel, { foreignKey: 'userId' });
-ConversationModel.hasMany(MessageModel, { foreignKey: 'conversationId', as: 'messages' });
-MessageModel.belongsTo(ConversationModel, { foreignKey: 'conversationIdId' });
+UserModel.hasMany(ChatModel, { foreignKey: 'userId', as: 'chats' });
+ChatModel.belongsTo(UserModel, { foreignKey: 'userId' });
+ChatModel.hasMany(MessageModel, { foreignKey: 'chatId', as: 'messages' });
+MessageModel.belongsTo(ChatModel, { foreignKey: 'chatId' });
 
-export default ConversationModel;
+export default ChatModel;

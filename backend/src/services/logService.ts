@@ -2,11 +2,11 @@
 import bcrypt from 'bcrypt';
 import UserModel from '../database/models/UserModel';
 import HttpException from '../utils/HttpException';
-import { createJwtToken } from '../utils/jwtUtils';
+import { createJwtToken, validateJwtToken } from '../utils/jwtUtils';
 
 export async function loginService(
   { email, password }: { email: string, password: string },
-): Promise<{ token: string }> {
+): Promise<{ token: string, user: object | undefined }> {
   const userError = new HttpException(401, 'Incorrect email or password');
 
   if (!email || !password) {
@@ -28,5 +28,23 @@ export async function loginService(
   const { password: _, ...userWithoutPassword } = user.get();
 
   const token = createJwtToken(userWithoutPassword);
-  return token;
+  return { token, user: userWithoutPassword };
+}
+
+export async function checkTokenService(token: string) {
+  let tokenUser;
+  let user;
+  try {
+    tokenUser = validateJwtToken(token);
+  } catch (error) {
+    throw new HttpException(401, 'Invalid token');
+  }
+  if (tokenUser) {
+    user = await UserModel.findByPk(tokenUser.id);
+    if (!user) {
+      throw new HttpException(401, 'Invalid user');
+    }
+    const { password: _, ...userWithoutPassword } = user.get();
+    return userWithoutPassword;
+  }
 }

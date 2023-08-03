@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import AuthContext from '@/context/authContext';
-import { User } from '@/types/userTypes';
+import AuthContext from '@/context/AuthContext';
+import { fetchAPI } from '@/utils/fetchAPI';
 import fetchLogin from '@/utils/fetchLogin';
-import jwtDecode from 'jwt-decode';
 import { useContext, useEffect } from 'react';
 
 const useLogin = () => {
@@ -12,35 +9,51 @@ const useLogin = () => {
   if (!authContext) {
     throw new Error('useLogin must be used within an AuthProvider');
   }
-  const { login, setUser, setToken } = authContext;
+
+  const { login, user, setUser, setActions, setToken } = authContext;
 
   useEffect(() => {
     const userLogin = async () => {
-      try {
-        if (!login?.email || !login?.password) {
-          throw new Error('Invalid login');
-        }
-
-        const { result } = await fetchLogin(login);
-
-        if (result?.token) {
-          throw new Error('Token is missing');
-        }
-
-        const decodedUser: User = jwtDecode(result.token);
-        if (!decodedUser) {
-          throw new Error('Invalid token');
-        }
-
-        setUser(decodedUser);
-        setToken(result.token);
-      } catch (error: any) {
-        console.log('User Login Error:', error.message);
+      if (!login?.email || !login?.password) {
+        return;
       }
+
+      const data = await fetchAPI('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ login })
+      });
+
+      setUser(data?.user);
+      setToken(data?.token);
     };
 
     userLogin();
-  }, [login]);
+  }, [login, setUser, setToken]);
+
+  useEffect(() => {
+    if (user?.email) {
+      setActions((prev) => ({ ...prev, login: false }));
+    }
+  }, [user?.email, setActions]);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const { token } = await fetchAPI('api/token', { method: 'GET' });
+
+      if (!user && token) {
+        const { result: user } = await fetchLogin({ endpoint: 'check' });
+        console.log('User',user);
+
+        if (user) {
+          setUser(user);
+        }
+      }
+    };
+    checkToken();
+  });
 };
 
 export default useLogin;

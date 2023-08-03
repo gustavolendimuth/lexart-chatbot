@@ -8,11 +8,11 @@ export function createJwtToken({ password, ...user }: UserModel) {
   if (!jwtSecret) throw new Error('JWT_SECRET not found');
 
   const token = jwt.sign(user, jwtSecret, {
-    expiresIn: '15d',
+    expiresIn: '7d',
     algorithm: 'HS256',
   });
 
-  return { token };
+  return token;
 }
 
 export function validateJwtToken(token: string) {

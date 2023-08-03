@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.bulkInsert('users', [{
       name: 'Admin',
       email: 'join-us@lexartlabs.com',
-      password: '1d9e579683f89a3373c32b7b320e326208b125d82f770f08e3fe40a0d804c8a9',
+      password: '$2b$10$4ZrnwlH.h7Lviy97NMkJ5Oh5J5rlxYtyMykAG3IkOtgMP.Voyd3a6',
       role: 'admin',
     }], {});
   },

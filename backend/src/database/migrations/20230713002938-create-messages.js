@@ -10,21 +10,21 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      conversationId: {
+      chatId: {
         type: Sequelize.INTEGER,
-        field: 'conversation_id',
+        field: 'chat_id',
         references: {
-          model: 'conversations',
+          model: 'chats',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      message: {
+      content: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      role: {
+      sender: {
         type: Sequelize.STRING,
         allowNull: false,
       },
